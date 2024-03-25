@@ -1,0 +1,56 @@
+@charset "UTF-8";
+.bottomNav {
+  box-sizing: border-box;
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1001;
+  background-color: #ffffff;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #f8f8f8;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  padding-top: 2px;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  margin-bottom: 0;
+}
+
+.menuItem {
+  display: inline-block;
+  transform: scale(0.83333333);
+  text-decoration: none;
+  font-size: 18px;
+  text-align: center;
+  transition: color 0.3s; /* 平滑颜色过渡 */
+}
+.menuItem .fas {
+  font-size: 22px;
+  height: 22px;
+  line-height: 22px;
+  margin-bottom: 4px; /* 优化：调整图标和文字之间的间距 */
+}
+.menuItem a {
+  display: block;
+  font-size: 12px;
+  color: inherit; /* 继承父元素颜色，保持一致性 */
+  transform: scale(0.83333333);
+  text-decoration: none;
+}
+
+.menuItem:active {
+  background-color: rgba(0, 0, 0, 0.1); /* 触摸反馈 */
+}
+
+.menuItem.active {
+  color: #007bff; /* 激活状态颜色 */
+}
+
+.menuItem.active .fas,
+.menuItem.active a {
+  color: #007bff; /* 激活状态下图标和文字颜色 */
+  text-decoration: none;
+}/*# sourceMappingURL=bottomNav.css.map */

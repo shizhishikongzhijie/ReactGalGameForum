@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from './layout/HeaderNav/header';
+import Home from './pages/HomePage/home';
+import Chat from './pages/ChatPage/chat';
+import Search from './pages/SearchPage/search';
+import User from './pages/UserPage/user';
+import Article from './pages/ArticlePage/article';
+import BottomNav from './layout/BottomNav/bottomNav';
+import Three from './pages/ThreePage/three';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+        <Header />
+          <Routes>
+            <Route path="/App" element={<App />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/index" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/search" element={<Search searchContext="恋爱" />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/articleread" element={<Article />} />
+            <Route path="/three" element={<Three />} />
+          </Routes>
+        <BottomNav />
+    </>
   );
 }
 
