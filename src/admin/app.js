@@ -7,13 +7,14 @@ import {
     PushpinOutlined,
     AppstoreOutlined,
     SettingOutlined,
-    LinkOutlined
+    LinkOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import TagList from './components/tagsView/tagList';
 import DashBoard from './page/DashBoard/DashBoard';
 import ArticleEditor from './page/ArticleEditor/ArticleEditor';
-
+import User from './page/User/User';
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
@@ -73,6 +74,7 @@ const App = () => {
     const items = [
         getItem('仪表盘', '1', <DashboardOutlined />),
         getItem('文章', '2', <PushpinOutlined />),
+        getItem('用户', '11', <UserOutlined />),
         getItem('Navigation Three', 'sub1', <AppstoreOutlined />, [
             getItem('Option 3', '3'),
             getItem('Option 4', '4'),
@@ -154,6 +156,8 @@ const AppChildren = ({ selectedTags }) => {
             return <DashBoard />;
         case '文章'://文章
             return <ArticleEditor />;
+        case '用户'://用户
+            return <User />;
         default:
             return <div>shizhishi</div>;
     }
