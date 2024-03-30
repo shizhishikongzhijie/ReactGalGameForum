@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 import Header from './layout/HeaderNav/header';
 import Home from './pages/HomePage/home';
 import Chat from './pages/ChatPage/chat';

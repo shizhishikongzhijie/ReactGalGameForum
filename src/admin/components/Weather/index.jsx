@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState} from 'react';
-import SvgIcon from '../SvgIcon';
-import { Row, Col, Carousel } from 'antd';
+import { Row, Col } from 'antd';
 import styles from './index.cjs';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

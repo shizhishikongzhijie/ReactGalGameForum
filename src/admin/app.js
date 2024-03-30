@@ -1,20 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     DashboardOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    MailOutlined,
-    CalendarOutlined,
+    PushpinOutlined,
     AppstoreOutlined,
     SettingOutlined,
     LinkOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Row, Col } from 'antd';
-import Weather from './components/Weather/index';
+import { Layout, Menu, Button, theme } from 'antd';
 import TagList from './components/tagsView/tagList';
+import DashBoard from './page/DashBoard/DashBoard';
+import ArticleEditor from './page/ArticleEditor/ArticleEditor';
 
 const { Header, Sider, Content } = Layout;
 
@@ -24,6 +22,41 @@ const App = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+
+    const [selectedTags, setSelectedTags] = useState(0);
+    // 通过useState管理标签列表
+    const [tags, setTags] = useState([]);
+    // 删除指定的标签
+    const handleClose = (removedIndex) => {
+        const newTags = tags.filter((tag, index) => index !== removedIndex); // 使用索引来过滤标签
+        setTags([...newTags]); // 更新标签列表
+    };
+
+
+    //进行选择
+    const handleTagClickToChangeColor = ([index,tag]) => {
+        // 切换选中状态
+        if (selectedTags[0] === index) {
+            setSelectedTags([0,null]);
+        } else {
+            setSelectedTags([index,tag]);
+            console.log("elseindex:" + index);
+            console.log("setSelectedTags:" + selectedTags);
+        }
+    };
+    //当新增tag时，把新的Index变为selectedTags
+    const handleTagClickToAdd = ([index,tag]) => {
+        setSelectedTags([index,tag]);
+    };
+    //当删除tag时，把selectedTags变为这个Index的上一个，如果没有上一个，则为空
+    const handleTagClickToDelete = ([index,tag]) => {
+        if (tags.length === 1) {
+            setSelectedTags([0,null]);
+        } else {
+            setSelectedTags([index - 1,tag])
+        }
+    };
     function getItem(label, key, icon, children) {
         return {
             key,
@@ -32,17 +65,14 @@ const App = () => {
             label,
             onClick: () => {
                 setTags([...tags, label]);
+                const tagsLength = tags.length;//为setSelectedTags的Index
+                handleTagClickToAdd([tagsLength,label])
             }
         };
     }
-
-
-    // 通过useState管理标签列表
-    const [tags, setTags] = useState([]);
-
     const items = [
         getItem('仪表盘', '1', <DashboardOutlined />),
-        getItem('Navigation Two', '2', <CalendarOutlined />),
+        getItem('文章', '2', <PushpinOutlined />),
         getItem('Navigation Three', 'sub1', <AppstoreOutlined />, [
             getItem('Option 3', '3'),
             getItem('Option 4', '4'),
@@ -63,6 +93,7 @@ const App = () => {
             'link',
             <LinkOutlined />,
         ),
+        getItem('文章', '10', <SettingOutlined />),
     ];
     return (
         <Layout style={{ height: '100vh' }}>
@@ -88,7 +119,9 @@ const App = () => {
                     <Button
                         type="text"
                         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
+                        onClick={() => {
+                            setCollapsed(!collapsed)
+                        }}
                         style={{
                             fontSize: '16px',
                             width: 64,
@@ -96,7 +129,9 @@ const App = () => {
                         }}
                     />
                 </Header>
-                <TagList tagsList={tags} />
+                <TagList tags={tags} handleClose={handleClose} selectedTags={selectedTags}
+                    handleTagClickToChangeColor={handleTagClickToChangeColor}
+                    handleTagClickToDelete={handleTagClickToDelete} />
                 <Content
                     style={{
                         margin: '24px 16px',
@@ -104,24 +139,23 @@ const App = () => {
                         minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
+                        overflow: 'auto', // 或者 'scroll'
                     }}
                 >
-                    <Row gutter={[24, 24]}>
-                        <Col span={12}>
-                            <Weather />
-                        </ Col>
-                        <Col span={12} />
-
-                        <Col span={12} />
-                        <Col span={12} />
-                    </Row>
-                    <Row gutter={[24, 24]}>
-                        <Col span={12} />
-                        <Col span={12} />
-                    </Row>
+                    <AppChildren selectedTags={selectedTags} />
                 </Content>
             </Layout>
         </Layout>
     );
+};
+const AppChildren = ({ selectedTags }) => {
+    switch (selectedTags[1]) {
+        case '仪表盘'://仪表盘
+            return <DashBoard />;
+        case '文章'://文章
+            return <ArticleEditor />;
+        default:
+            return <div>shizhishi</div>;
+    }
 };
 export default App;
